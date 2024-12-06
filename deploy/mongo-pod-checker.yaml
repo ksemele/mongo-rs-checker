@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mongo-rs-checker
+  namespace: default
+  labels:
+    app: mongo-rs-checker
+spec:
+  restartPolicy: OnFailure
+  containers:
+  - name: mongo-rs-checker
+    image: quay.io/greengrunt/checkers/mongo-rs-checker:0.0.2
+    ports:
+    - containerPort: 8080
+    env:
+    - name: MONGODB_URI
+      value: "mongodb://<USER>:<PASSWORD>@mongodb-rs0.default.svc.cluster.local:27017/?replicaSet=<RS_NAME>&authSource=<MONGODB_DATABASE_NAME>"
+    - name: MONGODB_DATABASE_NAME
+      value: "test"
